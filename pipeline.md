@@ -78,7 +78,7 @@ done
 ```
 #### 8. Adjust pangenomic set (VG)
 
-[adjust_pangvcf.sh](script/adjust_pangvcf.sh)
+[adjust_pangvcf.sh](script/adjust_pangvcf.sh) fileobtainedbypggb.vcf
 
 #### 9. Graph evaluation
 ```
