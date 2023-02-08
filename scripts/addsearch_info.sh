@@ -18,7 +18,7 @@ do
 done < rat_pangenome_chr12_snp_validation_all_data_2023-02-03.edit.csv
 
 #Removes the first row of the CSV file and adds a header row to the CSV file,
-tail -n +2 rat_pangenome_chr12_snp_validation_all_data_2023-02-03.edit.csv > tmp.csv
+tail -n +2 output.csv > tmp.csv
 
 #Performs a search operation on each line of the CSV file in the refseq (targetseq) and adds the result to the end of each line
 echo "ID,name,Sequence,Scale,Purification,Tm,begin,tag,direction,CHROM,start,end,newID,POS,REF,ALT,QUAL,ab1name,seq,targetSeq,search" > rat_pangenome_chr12_snp_validation_all_data_search_2023-02-03.csvstart=146
