@@ -1,7 +1,5 @@
 #!/bin/bash
-tr -d '"' <rat_pangenome_chr12_snp_validation_all_data_search_2023-02-03.csv >rat_pangenome_chr12_snp_validation_all_data_search_edit_2023-02-03.csv #remove quotes in a csv
-
-awk -F ',' '{print ">"$1"\n"$20 > $1".seq.fa"; print ">"$2"\n"$19 > $2".targetSeq.fa"}' rat_pangenome_chr12_snp_validation_all_data_search_edit_2023-02-03.csv
+awk -F ',' '{print ">"$1"\n"$20 > $1".seq.fa"; print ">"$2"\n"$19 > $2".targetSeq.fa"}' rat_pangenome_chr12_snp_validation_all_data_search_2023-02-03.csv
 
 while read line
 do
@@ -20,4 +18,4 @@ echo "REF: "$ref >> $query"."$target".blast.txt"
 else
 echo "Error: target file $target_file not found for $seq_file"
 fi
-done < rat_pangenome_chr12_snp_validation_all_data_search_edit_2023-02-03.csv
+done < rat_pangenome_chr12_snp_validation_all_data_search_2023-02-03.csv
