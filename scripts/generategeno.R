@@ -1,9 +1,12 @@
+Code adapted from:
+#https://github.com/DannyArends/BXDtools
+#https://github.com/mae47/Convergent_evolution/blob/main/BXD_mice/Scripts/phewas.create.geno.r
+
 library(dplyr)
 library(stringr)
 library(tibble) 
-#https://github.com/mae47/Convergent_evolution/blob/main/BXD_mice/Scripts/phewas.create.geno.r
-##Load vcf (SNPs called by pangenome), with no multiallalic sites
-vcf <- read.table("snps.easy.onlypg.nomulti.gt.txt")
+##Load vcf (12 SNPs validated, called by vg-only), with splitted multiallalic sites
+vcf <- read.table("12.onlyvg.nomulti.gt.txt")
 #bcftools query -l file.vcf.gz > samples.txt 
 samples <- read.table("samples.txt", header=FALSE, stringsAsFactors=FALSE)
 #Convert the samples to a vector
@@ -16,9 +19,9 @@ colnames(vcf) <- vcf_header
 x<-colnames(vcf)
 info_cols<-c("Chr","POS")
 #List only HXB cols
-BXD_samples<-setdiff(x, info_cols)
+HXB_samples<-setdiff(x, info_cols)
 #rearrange
-vcf<-vcf[,c(info_cols,str_sort(c(BXD_samples),numeric=TRUE))]
+vcf<-vcf[,c(info_cols,str_sort(c(HXB_samples),numeric=TRUE))]
 #Samples now in numerical order:
 colnames(vcf)
 ##Make column "Locus" with merged chr and pos for row names
@@ -43,9 +46,6 @@ vcf[vcf=="1"] <- "A" #later code back to 1
 vcf[vcf=="."] <- "U" #later code to Na 
 vcf[vcf=="2"] <- "U" #later code to Na 
 vcf[vcf=="3"] <- "U" #later code to Na 
-#het<-c("1/0","0/1")
-#Replace the above het values with H or 0
-#vcf<-sapply(vcf, function(x) replace(x, x %in% het, "H")) #or 0
 
 #Add missing column cM
 vcf<-add_column(vcf, cM='.', .after="Chr")
