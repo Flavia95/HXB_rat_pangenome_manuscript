@@ -1,4 +1,8 @@
-# 10x technology-pggb analysis pipeline
+## 10X linked-read technology-HXB pangenome
+
+#### 0. Data 
+Linked read WGS data for the HXB/BXH family is available from NIH SRA. 
+The SRA identifications for each sample is provided in the Table S9 of the manuscript.
 
 #### 1. Data and preprocessing
 
@@ -34,20 +38,6 @@ do
     wfmash -t 48 -m -N -p 90 -s 20000 $ref $in >$out
 done
 ```
-#### 4. Sequence partitioning
-Partition the assembly contigs by chromosome by mapping each assembly against the reference genome. We use wfmash for the mapping.
-
-```
-zcat * fasta.gz > rat.fasta.gz
-zgrep '_changeid.fasta.gz$' | cut -f 1-2 -d . | sort -V | uniq >haps.list
-ref=rn7_supernova_megabubble_changeid.fasta.gz
-for hap in $(cat haps.list);
-do
-    in=assemblies/$hap
-    out=alignments/$hap.vs.ref.paf
-    wfmash -t 48 -m -N -p 90 -s 20000 $ref $in >$out
-done
-```
 #### 5. Subset by chromosome:
 
 ```
@@ -64,7 +54,7 @@ We apply [pggb](https://github.com/pangenome/pggb) and vg for the variant callin
 ```
 (seq 20;echo X;echo Y| tr ' ' '\n') | while read i; do sbatch -p workers -c 48 --wrap 'cd /scratch && /lizardfs/flaviav/rat/rat_paper/pggb_c1c3a1565604fc41f880bccd9f46d0a709f3e774 -i /lizardfs/flaviav/rat/pggb_paper/parts/chr'$i'.pan+ref.fa.gz -p 98 -s 2000 -n 32 -F 0.001 -k 79 -P asm5 -O 0.03 -G 4001,4507 -V rn7:# -t 48 -T 48 -o chr'$i'.pan+ref ; mv /scratch/chr'$i'.pan+ref '$(pwd); done
 ```
-#### 7. Adjust "truth set" (JC)
+#### 7. Adjust "truth" genomic set (JC)
 `bcftools reheader --samples rename.txt deepvariant_chr$1_33_samples_mRatBN7.2.gvcf.gz -o deepvariant_chr$1_33_samples_reh.mRatBN7.2.gvcf.gz`
 
 ```
@@ -76,7 +66,7 @@ do
     done
 done
 ```
-#### 8. Adjust pangenomic set (VG)
+#### 8. Adjust pangenomic VCF set (VG)
 
 [adjust_pangvcf.sh](script/adjust_pangvcf.sh) fileobtainedbypggb.vcf
 
@@ -88,14 +78,21 @@ Prepare the reference genome:
 ```
 rtg format -o ref.sdf rn7.fa
 ```
-Evaluation between the "truth set" and pangenomic set.
+Evaluation between the "truth set" JC and pangenomic (vg) set.
 
-[small_evaluation.sh](script/small_evaluation.sh) ref.sdf chrofinterest
+[small_evaluation.sh](https://github.com/Flavia95/HXB_pangenome/blob/main/scripts/small_evaluation.sh) ref.sdf chrofinterest
 
 ### Results
 
-- Graph statistics using odgi stats:
-- Number of small variants using vt peek and bcftools stats:
-- Evaluation graphs using rtg:
+- Graph statistics using:
+  ```
+  odgi stats -i graph.og -S
+  ```
+- Number of small variants using:
+```
+  vt peek
+  bcftools stats
+```
+- Evaluation graphs using rtg reported above.
 
-We focalized our work only using chr12, we selected some variants called only by the pangenome and we validated these with the PCR.
+We focalized our work only using chr12, we selected some variants called only by the vg-only and we validated these with the PCR.
