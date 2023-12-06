@@ -16,26 +16,3 @@ rtg vcfeval -t $SDF -b truth_vcf/$2/SHROlaIpcv.JT.indels.vcf.gz -c graphs/$2.pan
 # hard region
 rtg vcfeval -t $SDF -btruth_vcf/$2/SHROlaIpcv.JT.snps.vcf.gz -c ucsc_easy_hard/hard_$2.bed -T ${thread} --squash-ploidy -o vcfeval_snps_hard
 '''
-#cd vcfeval_easy/SHROlaIpcv
-#echo sample tp.baseline tp.call fp fn precision recall f1.score | tr ' ' '\t' > statistics.easy.2000.F100.tsv
-#grep None */summary.txt | sed 's,/summary.txt:,,' | tr -s ' ' | cut -f 1,3,4,5,6,7,8,9 -d ' ' | tr ' ' '\t' >> statistics.easy.2000.F100.tsv
-#cd ..
-#cd vcfeval_snps/SHROlaIpcv
-#echo sample tp.baseline tp.call fp fn precision recall f1.score | tr ' ' '\t' > statistics.snps.easy.tsv
-#grep None */summary.txt | sed 's,/summary.txt:,,' | tr -s ' ' | cut -f 1,3,4,5,6,7,8,9 -d ' ' | tr ' ' '\t' >> statistics.snps.easy.tsv
-#cd ..
-#cd vcfeval_indels/SHROlaIpcv
-#echo sample tp.baseline tp.call fp fn precision recall f1.score | tr ' ' '\t' > statistics.indels.easy.tsv
-#grep None */summary.txt | sed 's,/summary.txt:,,' | tr -s ' ' | cut -f 1,3,4,5,6,7,8,9 -d ' ' | tr ' ' '\t' >> statistics.indels.easy.tsv
-#cd ..
-
-#cd vcfeval_hard/SHROlaIpcv
-#echo sample tp.baseline tp.call fp fn precision recall f1.score | tr ' ' '\t' > statistics.hard.2000.F100.tsv
-#grep None */summary.txt | sed 's,/summary.txt:,,' | tr -s ' ' | cut -f 1,3,4,5,6,7,8,9 -d ' ' | tr ' ' '\t' >> statistics.hard.2000.F100.tsv
-#cd ..
-
-#cd vcfeval_snps_hard/SHROlaIpcv
-#echo sample tp.baseline tp.call fp fn precision recall f1.score | tr ' ' '\t' > statistics.snps.hard.tsv
-#grep None */summary.txt | sed 's,/summary.txt:,,' | tr -s ' ' | cut -f 1,3,4,5,6,7,8,9 -d ' ' | tr ' ' '\t' >> statistics.snps.hard.tsv
-#cd ..
-'''
