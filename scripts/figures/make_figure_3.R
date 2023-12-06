@@ -6,7 +6,6 @@ library(cowplot)
 library(grid)
 library(png) 
 
-
 # Define a function to create the scatter plot with correlation line and annotations for Spearman's rank correlation
 create_scatter_plot <- function(data, trait_name) {
   # Filter out rows with missing values (".") in Value or Variant columns
@@ -57,7 +56,6 @@ create_scatter_plot <- function(data, trait_name) {
   
   return(p)
 }
-
 
 # Define a function to read and preprocess data from a file
 read_and_preprocess <- function(file_path, trait_name) {
@@ -156,7 +154,6 @@ fb <- ggplot() + annotation_custom(pb, xmin=-Inf, xmax=Inf, ymin=-Inf, ymax=Inf)
    theme(plot.margin = unit(c(0,0,0,0), "null"),plot.tag = element_text(face = "bold"))
 
 ff <- rasterGrob(png::readPNG("ff.png"))
-
 figff_plot <- ggplot() + 
   annotation_custom(ff, xmin=-Inf, xmax=Inf, ymin=-Inf, ymax=Inf)+theme_bw() +  # Or any other theme you prefer
   theme(
@@ -164,12 +161,8 @@ figff_plot <- ggplot() +
     panel.border = element_blank(),plot.tag = element_text(face = "bold")  # Remove panel borders
   ) + labs(tag='F')
 
-
 fig3<-grid.arrange(arrangeGrob(fa, fb , ncol = 2, bottom=''), 
              arrangeGrob(fc, fd, fe, ncol = 3), 
              arrangeGrob(figff_plot, ncol = 1), 
              heights = c(1.5, 1, 1))
-
-
-
 ggsave('fig3.tiff', fig3, height=10, width=10, dpi=600)
