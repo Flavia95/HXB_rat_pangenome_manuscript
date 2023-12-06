@@ -8,7 +8,6 @@ This is an example:
 bcftools merge */fp.vcf.gz -o onlysnps_pg_allsamples.vcf.gz
 bcftools merge */fn.vcf.gz -o onlysnps_jc_allsamples.vcf.gz
 ```
-I checked if the thread for variants called by vg-only and jc-only are the same. All seems okay.
 
 #### 2. PheWAS analyses
 
