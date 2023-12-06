@@ -9,7 +9,7 @@ library(gridExtra)
 library(cowplot)
 
 ############1. upset plot
-input_df <- read.delim("data/overalp_4methods.txt", sep="\t", header=TRUE)
+input_df <- read.delim("overalp_4methods.txt", sep="\t", header=TRUE)
 indvs <- input_df %>%uncount(count) 
 symptoms <- c("hall", "vg", "svim", "pav")
 
@@ -34,9 +34,7 @@ s4a <- upset(data = indvs, intersect = symptoms,
 ggsave("upset_SHR.png", width = 11, height = 6, dpi=400)
 
 # UPSET ALL SAMPLES
-##SVs all samples at least 2 tool
-
-input_df <- read.delim("data/SV_atleast1.txt", sep="\t", header=TRUE)
+input_df <- read.delim("SV_atleast2.txt", sep="\t", header=TRUE)
 indvs <- input_df %>%uncount(count) 
 symptoms <- c("hall", "vg", "svim", "pav")
 
@@ -62,11 +60,11 @@ s4b <- upset(data = indvs, intersect = symptoms,
 
 ggsave("upset_allsamples.png", width = 5, height = 5, dpi=600)
 
+#final plot
 fa <- plot_grid(s4a,labels = c('A'), label_size = 12,nrow=1)
-fc <- rasterGrob(png::readPNG("/home/flavia/Desktop/S4C.png"))
+fc <- rasterGrob(png::readPNG("S4C.png"))
 fb_c <- plot_grid(s4b,figS4c,labels = c('B','C'), label_size = 12,nrow=1)
 f4 <- plot_grid(fa, fb_c,nrow = 2)
 
 ggsave('S4.png',f4, dpi=300, width = 15, heigh = 15, units='cm')
-
 
