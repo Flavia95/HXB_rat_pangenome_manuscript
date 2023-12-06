@@ -64,7 +64,7 @@ We apply [pggb](https://github.com/pangenome/pggb) and vg for the variant callin
 ```
 (seq 20;echo X;echo Y| tr ' ' '\n') | while read i; do sbatch -p workers -c 48 --wrap 'cd /scratch && /lizardfs/flaviav/rat/rat_paper/pggb_c1c3a1565604fc41f880bccd9f46d0a709f3e774 -i /lizardfs/flaviav/rat/pggb_paper/parts/chr'$i'.pan+ref.fa.gz -p 98 -s 2000 -n 32 -F 0.001 -k 79 -P asm5 -O 0.03 -G 4001,4507 -V rn7:# -t 48 -T 48 -o chr'$i'.pan+ref ; mv /scratch/chr'$i'.pan+ref '$(pwd); done
 ```
-#### 7. Adjust "truth set" (JT)
+#### 7. Adjust "truth set" (JC)
 `bcftools reheader --samples rename.txt deepvariant_chr$1_33_samples_mRatBN7.2.gvcf.gz -o deepvariant_chr$1_33_samples_reh.mRatBN7.2.gvcf.gz`
 
 ```
