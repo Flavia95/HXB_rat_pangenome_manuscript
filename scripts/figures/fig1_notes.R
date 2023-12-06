@@ -6,7 +6,6 @@ library(grid)
 library(gridExtra)
 library(cowplot)
 
-
 #1. Classification type of variants
 mym<-read.table('micro12_allsamples.txt', header=T , sep='\t')
 mym$variant <- factor(mym$variant, levels = c("SNPs", "MNPs", "INDELs", "SNP/INDEL", "MNP/INDEL", "INDEL/CLUMPED"))
@@ -105,12 +104,11 @@ p2=ggplot(myd4, aes(Type, Count, fill = Variant_type)) +
 ggsave("typeimpactSV_allsamples.png" ,myd2, dpi=1000, width = 5, heigh = 5)
 
 fig1a <- rasterGrob(png::readPNG("chr12.pan+ref.fa.gz.f6a1f45.c2fac19.eec7a56.smooth.final.sort.png"))
-# fig1a in ggplot
 fig1a_plot <- ggplot() + 
-  annotation_custom(fig1a, xmin=-Inf, xmax=Inf, ymin=-Inf, ymax=Inf)+theme_bw() +  # Or any other theme you prefer
+  annotation_custom(fig1a, xmin=-Inf, xmax=Inf, ymin=-Inf, ymax=Inf)+theme_bw() + 
   theme(
     plot.background = element_rect(fill = "white"),
-    panel.border = element_blank()  # Remove panel borders
+    panel.border = element_blank()  
   )
 
 # Paired plots 
@@ -118,6 +116,7 @@ a1 = (ci2 / plot2)
 a2 = (myd1 / p) 
 a3 = (ci / p2)
 
+#Generate final figures
 figure <- plot_grid(
   fig1a_plot,  
   plot_grid(a1,a2, a3,ncol = 3), 
@@ -129,17 +128,3 @@ figure <- figure +
   plot_annotation(tag_levels = 'A')
 
 ggsave("Figure1.tiff" ,figure, dpi=700, width = 13, heigh = 10)
-
-
-
-#firstrow <- plot_grid(fig1a, labels = c('A'), label_size = 12,ncol=1)
-#secondrow <- plot_grid(ci2,myd1,ci, labels = c('B', 'C','D'), label_size = 12, ncol = 3)
-#thirdrow <- plot_grid(plot2, p,p2, labels = c('E', 'F','G'), label_size = 12, ncol = 3)
-#final_plot <- plot_grid(firstrow, secondrow,thirdrow, nrow = 3)
-#ggsave('fig2.eps', dpi=300, width = 32, heigh = 18, units='cm')
-#. Number of effect by region
-#myd1=read.table("effectbyregion_sim_com.txt", header=T)
-#ggplot(myd1, aes(Type, Count, fill = Variant_type)) + geom_col(position = "stack", width = 0.5) +scale_y_log10() +scale_fill_brewer(palette = "Set2")+ 
-#scale_fill_manual(values = c("simple" = "burlywood3", "complex" = "darkslategray3"),breaks = c("simple", "complex"),labels = c("Simple", "Complex")) +
-#theme_classic()  +   theme(axis.text.x = element_text(angle = 90, hjust = 1, vjust = 0.5)) +coord_flip()+ labs(x = '', y = 'count', fill = 'Variant type') +theme(legend.position = "top",rect = element_rect(fill = "transparent"))
-#ggsave("effectregion_allsamples.png" , dpi=1000, width = 5, heigh = 4)
